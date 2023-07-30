@@ -10,9 +10,7 @@ namespace API.Controllers;
 public class ActivitiesController : BaseApiController
 {
     private readonly IMediator _mediator;
-
-
-   
+    
 
     [HttpGet]
     public async Task<ActionResult<List<Activity>>> GetActivities()
@@ -23,6 +21,13 @@ public class ActivitiesController : BaseApiController
     [HttpGet("{id}")]
     public async Task<ActionResult<Activity>> GetActivityById(Guid id)
     {
+        return await Mediator.Send(new Details.Query { Id = id});
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateActivity(Activity activity)
+    {
+        await Mediator.Send(new Create.Command {Activity = activity});
         return Ok();
     }
 }
