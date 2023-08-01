@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Activity } from "../../types/Activities";
+import { Nav } from "./Nav";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>();
@@ -12,7 +13,7 @@ function App() {
   }, []);
   return (
     <>
-      <h2 className="text-3xl">Talkty</h2>
+      <Nav />
       <ul>
         {activities?.map((activity) => (
           <li key={activity.id}>{activity.title}</li>
