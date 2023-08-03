@@ -2,9 +2,13 @@ import { Activity } from "../../../types/Activities";
 
 interface ActivityListProps {
   activities: Activity[];
+  handleSelectActivity: (id: string) => void;
 }
 
-export const ActivityList = ({ activities }: ActivityListProps) => {
+export const ActivityList = ({
+  activities,
+  handleSelectActivity,
+}: ActivityListProps) => {
   return (
     <div className="p-4 bg-white">
       <div className="">
@@ -21,7 +25,10 @@ export const ActivityList = ({ activities }: ActivityListProps) => {
                 <div className="p-1 border border-gray-300">
                   {activity.category}
                 </div>
-                <button className="px-3 py-1 text-white bg-blue-500 rounded-sm">
+                <button
+                  className="px-3 py-1 text-white bg-blue-500 rounded-sm"
+                  onClick={() => handleSelectActivity(activity.id)}
+                >
                   View
                 </button>
               </div>

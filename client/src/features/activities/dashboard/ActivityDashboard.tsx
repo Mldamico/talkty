@@ -5,16 +5,32 @@ import { ActivityList } from "./ActivityList";
 
 interface ActivityDashBoardProps {
   activities: Activity[];
+  selectedActivity: Activity | undefined;
+  handleSelectActivity: (id: string) => void;
+  handleCancelSelectActivity: () => void;
 }
 
-export const ActivityDashboard = ({ activities }: ActivityDashBoardProps) => {
+export const ActivityDashboard = ({
+  activities,
+  selectedActivity,
+  handleSelectActivity,
+  handleCancelSelectActivity,
+}: ActivityDashBoardProps) => {
   return (
     <div className="grid gap-4 grid-cols-[1.2fr_0.6fr]">
       <div className="">
-        <ActivityList activities={activities} />
+        <ActivityList
+          activities={activities}
+          handleSelectActivity={handleSelectActivity}
+        />
       </div>
       <div className="">
-        <ActivityDetails activity={activities[0]} />
+        {selectedActivity && (
+          <ActivityDetails
+            activity={selectedActivity}
+            cancelSelectActivity={handleCancelSelectActivity}
+          />
+        )}
         <ActivityForm />
       </div>
     </div>

@@ -2,9 +2,13 @@ import { Activity } from "../../../types/Activities";
 
 interface ActivityDetailsProps {
   activity: Activity;
+  cancelSelectActivity: () => void;
 }
 
-export const ActivityDetails = ({ activity }: ActivityDetailsProps) => {
+export const ActivityDetails = ({
+  activity,
+  cancelSelectActivity,
+}: ActivityDetailsProps) => {
   return (
     <div className="flex flex-col gap-2 p-2 bg-white">
       <img src={`/assets/categoryImages/${activity.category}.jpg`} />
@@ -17,7 +21,12 @@ export const ActivityDetails = ({ activity }: ActivityDetailsProps) => {
         <button className="px-2 py-1 text-white bg-blue-500 border border-gray-600 rounded-md">
           Edit
         </button>
-        <button className="px-2 py-1 text-red-500">Cancel</button>
+        <button
+          className="px-2 py-1 text-red-500"
+          onClick={() => cancelSelectActivity()}
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );
