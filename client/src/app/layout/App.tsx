@@ -9,6 +9,7 @@ function App() {
   const [selectedActivity, setSelectedActivity] = useState<
     Activity | undefined
   >(undefined);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     axios
@@ -24,17 +25,29 @@ function App() {
     setSelectedActivity(undefined);
   };
 
+  const handleFormOpen = (id?: string) => {
+    id ? handleSelectActivity(id) : handleCancelSelectActivity();
+    setEditMode(true);
+  };
+
+  const handleFormClose = () => {
+    setEditMode(false);
+  };
+
   if (!activities) return;
 
   return (
     <>
-      <Nav />
+      <Nav openForm={handleFormOpen} />
       <div className="max-w-2xl mx-auto mt-24 lg:max-w-4xl xl:max-w-6xl">
         <ActivityDashboard
           activities={activities}
           selectedActivity={selectedActivity}
           handleSelectActivity={handleSelectActivity}
           handleCancelSelectActivity={handleCancelSelectActivity}
+          editMode={editMode}
+          openForm={handleFormOpen}
+          closeForm={handleFormClose}
         />
       </div>
     </>

@@ -8,6 +8,9 @@ interface ActivityDashBoardProps {
   selectedActivity: Activity | undefined;
   handleSelectActivity: (id: string) => void;
   handleCancelSelectActivity: () => void;
+  editMode: boolean;
+  openForm: (id: string) => void;
+  closeForm: () => void;
 }
 
 export const ActivityDashboard = ({
@@ -15,6 +18,9 @@ export const ActivityDashboard = ({
   selectedActivity,
   handleSelectActivity,
   handleCancelSelectActivity,
+  editMode,
+  openForm,
+  closeForm,
 }: ActivityDashBoardProps) => {
   return (
     <div className="grid gap-4 grid-cols-[1.2fr_0.6fr]">
@@ -29,9 +35,12 @@ export const ActivityDashboard = ({
           <ActivityDetails
             activity={selectedActivity}
             cancelSelectActivity={handleCancelSelectActivity}
+            openForm={openForm}
           />
         )}
-        <ActivityForm />
+        {editMode && (
+          <ActivityForm closeForm={closeForm} activity={selectedActivity} />
+        )}
       </div>
     </div>
   );

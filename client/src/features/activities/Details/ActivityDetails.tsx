@@ -3,11 +3,13 @@ import { Activity } from "../../../types/Activities";
 interface ActivityDetailsProps {
   activity: Activity;
   cancelSelectActivity: () => void;
+  openForm: (id: string) => void;
 }
 
 export const ActivityDetails = ({
   activity,
   cancelSelectActivity,
+  openForm,
 }: ActivityDetailsProps) => {
   return (
     <div className="flex flex-col gap-2 p-2 bg-white">
@@ -18,7 +20,10 @@ export const ActivityDetails = ({
         <p>{activity.description}</p>
       </div>
       <div className="flex justify-between">
-        <button className="px-2 py-1 text-white bg-blue-500 border border-gray-600 rounded-md">
+        <button
+          className="px-2 py-1 text-white bg-blue-500 border border-gray-600 rounded-md"
+          onClick={() => openForm(activity.id)}
+        >
           Edit
         </button>
         <button

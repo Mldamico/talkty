@@ -1,4 +1,11 @@
-export const ActivityForm = () => {
+import { Activity } from "../../../types/Activities";
+
+interface ActivityFormProps {
+  closeForm: () => void;
+  activity: Activity | undefined;
+}
+
+export const ActivityForm = ({ activity, closeForm }: ActivityFormProps) => {
   return (
     <div className="p-2 mt-4 bg-white">
       <form className="flex flex-col">
@@ -38,7 +45,11 @@ export const ActivityForm = () => {
           >
             Submit
           </button>
-          <button type="button" className="text-red-500">
+          <button
+            type="button"
+            className="text-red-500"
+            onClick={() => closeForm()}
+          >
             Cancel
           </button>
         </div>

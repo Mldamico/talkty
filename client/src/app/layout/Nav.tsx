@@ -1,4 +1,8 @@
-export const Nav = () => {
+interface NavProps {
+  openForm: () => void;
+}
+
+export const Nav = ({ openForm }: NavProps) => {
   return (
     <div className="fixed top-0 w-full text-white nav">
       <div className="flex items-center max-w-2xl gap-6 p-3 m-auto  lg:max-w-4xl xl:max-w-6xl">
@@ -7,7 +11,12 @@ export const Nav = () => {
           <h3>Talkty</h3>
         </header>
         <div className="">Activities</div>
-        <button className="p-2 bg-green-600 rounded-md">Create Activity</button>
+        <button
+          className="p-2 bg-green-600 rounded-md"
+          onClick={() => openForm()}
+        >
+          Create Activity
+        </button>
       </div>
     </div>
   );
