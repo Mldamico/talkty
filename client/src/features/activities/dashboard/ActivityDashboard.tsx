@@ -1,5 +1,6 @@
 import { Activity } from "../../../types/Activities";
 import { ActivityDetails } from "../Details/ActivityDetails";
+import { ActivityForm } from "../form/ActivityForm";
 import { ActivityList } from "./ActivityList";
 
 interface ActivityDashBoardProps {
@@ -14,6 +15,7 @@ export const ActivityDashboard = ({ activities }: ActivityDashBoardProps) => {
       </div>
       <div className="">
         <ActivityDetails activity={activities[0]} />
+        <ActivityForm />
       </div>
     </div>
   );
