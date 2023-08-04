@@ -31,7 +31,7 @@ export const ActivityDashboard = ({
         />
       </div>
       <div className="">
-        {selectedActivity && (
+        {selectedActivity && !editMode && (
           <ActivityDetails
             activity={selectedActivity}
             cancelSelectActivity={handleCancelSelectActivity}
