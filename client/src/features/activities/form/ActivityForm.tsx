@@ -4,11 +4,13 @@ import { Activity } from "../../../types/Activities";
 interface ActivityFormProps {
   closeForm: () => void;
   activity: Activity | undefined;
+  createOrEdit: (activity: Activity) => void;
 }
 
 export const ActivityForm = ({
   activity: selectedActivity,
   closeForm,
+  createOrEdit,
 }: ActivityFormProps) => {
   const initialState = selectedActivity ?? {
     id: "",
@@ -22,7 +24,7 @@ export const ActivityForm = ({
   const [activity, setActivity] = useState(initialState);
 
   const handleSubmit = () => {
-    console.log(activity);
+    createOrEdit(activity);
   };
 
   const handleInputChange = (

@@ -3,11 +3,13 @@ import { Activity } from "../../../types/Activities";
 interface ActivityListProps {
   activities: Activity[];
   handleSelectActivity: (id: string) => void;
+  deleteActivity: (id: string) => void;
 }
 
 export const ActivityList = ({
   activities,
   handleSelectActivity,
+  deleteActivity,
 }: ActivityListProps) => {
   return (
     <div className="p-4 bg-white">
@@ -25,12 +27,20 @@ export const ActivityList = ({
                 <div className="p-1 border border-gray-300">
                   {activity.category}
                 </div>
-                <button
-                  className="px-3 py-1 text-white bg-blue-500 rounded-sm"
-                  onClick={() => handleSelectActivity(activity.id)}
-                >
-                  View
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    className="px-3 py-1 text-white bg-red-500 rounded-sm"
+                    onClick={() => deleteActivity(activity.id)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="px-3 py-1 text-white bg-blue-500 rounded-sm"
+                    onClick={() => handleSelectActivity(activity.id)}
+                  >
+                    View
+                  </button>
+                </div>
               </div>
             </div>
           </div>

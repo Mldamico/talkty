@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Activity } from "../../types/Activities";
 import { Nav } from "./Nav";
 import { ActivityDashboard } from "../../features/activities/dashboard/ActivityDashboard";
+import { v4 as uuid } from "uuid";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>();
@@ -34,6 +35,21 @@ function App() {
     setEditMode(false);
   };
 
+  const handleCreateOrEditActivity = (activity: Activity) => {
+    activity.id
+      ? setActivities([
+          ...activities!.filter((act) => act.id !== activity.id),
+          activity,
+        ])
+      : setActivities([...activities!, { ...activity, id: uuid() }]);
+    setEditMode(false);
+    setSelectedActivity(activity);
+  };
+
+  const handleDeleteActivity = (id: string) => {
+    setActivities([...activities!.filter((act) => act.id !== id)]);
+  };
+
   if (!activities) return;
 
   return (
@@ -48,6 +64,8 @@ function App() {
           editMode={editMode}
           openForm={handleFormOpen}
           closeForm={handleFormClose}
+          createOrEdit={handleCreateOrEditActivity}
+          deleteActivity={handleDeleteActivity}
         />
       </div>
     </>
