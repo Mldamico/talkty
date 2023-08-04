@@ -65,9 +65,9 @@ export const ActivityForm = ({
           className="p-1 mb-2 border border-gray-300 rounded-md"
         />
         <input
-          type="text"
           placeholder="Date"
           value={activity.date}
+          type="date"
           name="date"
           onChange={handleInputChange}
           className="p-1 mb-2 border border-gray-300 rounded-md"
