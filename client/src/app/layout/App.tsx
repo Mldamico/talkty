@@ -4,6 +4,7 @@ import { Nav } from "./Nav";
 import { ActivityDashboard } from "../../features/activities/dashboard/ActivityDashboard";
 import { v4 as uuid } from "uuid";
 import agent from "../api/agent";
+import { Loading } from "./Loading";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>();
@@ -11,7 +12,7 @@ function App() {
     Activity | undefined
   >(undefined);
   const [editMode, setEditMode] = useState(false);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     agent.Activities.list().then((response) => {
       let activities: Activity[] = [];
@@ -20,6 +21,7 @@ function App() {
         activities.push(activity);
       });
       setActivities(activities);
+      setLoading(false);
     });
   }, []);
 
@@ -55,14 +57,13 @@ function App() {
     setActivities([...activities!.filter((act) => act.id !== id)]);
   };
 
-  if (!activities) return;
-
+  if (loading) return <Loading content="Loading..." />;
   return (
     <>
       <Nav openForm={handleFormOpen} />
       <div className="max-w-2xl mx-auto mt-24 lg:max-w-4xl xl:max-w-6xl">
         <ActivityDashboard
-          activities={activities}
+          activities={activities!}
           selectedActivity={selectedActivity}
           handleSelectActivity={handleSelectActivity}
           handleCancelSelectActivity={handleCancelSelectActivity}
