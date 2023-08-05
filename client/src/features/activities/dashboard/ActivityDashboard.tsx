@@ -13,6 +13,7 @@ interface ActivityDashBoardProps {
   closeForm: () => void;
   createOrEdit: (activity: Activity) => void;
   deleteActivity: (id: string) => void;
+  submitting: boolean;
 }
 
 export const ActivityDashboard = ({
@@ -25,6 +26,7 @@ export const ActivityDashboard = ({
   closeForm,
   createOrEdit,
   deleteActivity,
+  submitting,
 }: ActivityDashBoardProps) => {
   return (
     <div className="grid gap-4 grid-cols-[1.2fr_0.6fr]">
@@ -47,6 +49,7 @@ export const ActivityDashboard = ({
           <ActivityForm
             createOrEdit={createOrEdit}
             closeForm={closeForm}
+            submitting={submitting}
             activity={selectedActivity}
           />
         )}

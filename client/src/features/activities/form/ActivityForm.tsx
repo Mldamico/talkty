@@ -5,12 +5,14 @@ interface ActivityFormProps {
   closeForm: () => void;
   activity: Activity | undefined;
   createOrEdit: (activity: Activity) => void;
+  submitting: boolean;
 }
 
 export const ActivityForm = ({
   activity: selectedActivity,
   closeForm,
   createOrEdit,
+  submitting,
 }: ActivityFormProps) => {
   const initialState = selectedActivity ?? {
     id: "",
@@ -91,11 +93,13 @@ export const ActivityForm = ({
         <div className="flex justify-between px-4 py-2">
           <button
             type="submit"
+            disabled={submitting}
             className="px-2 py-1 text-white bg-blue-500 rounded-md"
           >
             Submit
           </button>
           <button
+            disabled={submitting}
             type="button"
             className="text-red-500"
             onClick={() => closeForm()}
