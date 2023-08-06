@@ -4,12 +4,14 @@ interface ActivityListProps {
   activities: Activity[];
   handleSelectActivity: (id: string) => void;
   deleteActivity: (id: string) => void;
+  submitting: boolean;
 }
 
 export const ActivityList = ({
   activities,
   handleSelectActivity,
   deleteActivity,
+  submitting,
 }: ActivityListProps) => {
   return (
     <div className="p-4 bg-white">
@@ -30,6 +32,7 @@ export const ActivityList = ({
                 <div className="flex gap-2">
                   <button
                     className="px-3 py-1 text-white bg-red-500 rounded-sm"
+                    disabled={submitting}
                     onClick={() => deleteActivity(activity.id)}
                   >
                     Delete

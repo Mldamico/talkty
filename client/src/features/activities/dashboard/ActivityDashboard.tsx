@@ -35,6 +35,7 @@ export const ActivityDashboard = ({
           activities={activities}
           deleteActivity={deleteActivity}
           handleSelectActivity={handleSelectActivity}
+          submitting={submitting}
         />
       </div>
       <div className="">

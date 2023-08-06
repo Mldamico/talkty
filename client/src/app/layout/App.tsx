@@ -5,27 +5,21 @@ import { ActivityDashboard } from "../../features/activities/dashboard/ActivityD
 import { v4 as uuid } from "uuid";
 import agent from "../api/agent";
 import { Loading } from "./Loading";
+import { useStore } from "../stores/store";
+import { observer } from "mobx-react-lite";
 
 function App() {
+  const { activityStore } = useStore();
   const [activities, setActivities] = useState<Activity[]>();
   const [selectedActivity, setSelectedActivity] = useState<
     Activity | undefined
   >(undefined);
   const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    agent.Activities.list().then((response) => {
-      let activities: Activity[] = [];
-      response.forEach((activity) => {
-        activity.date = activity.date.split("T")[0];
-        activities.push(activity);
-      });
-      setActivities(activities);
-      setLoading(false);
-    });
-  }, []);
+    activityStore.loadActivities();
+  }, [activityStore]);
 
   const handleSelectActivity = (id: string) => {
     setSelectedActivity(activities?.find((activity) => activity.id === id));
@@ -68,16 +62,20 @@ function App() {
   };
 
   const handleDeleteActivity = (id: string) => {
-    setActivities([...activities!.filter((act) => act.id !== id)]);
+    setSubmitting(true);
+    agent.Activities.delete(id).then(() => {
+      setActivities([...activities!.filter((act) => act.id !== id)]);
+      setSubmitting(false);
+    });
   };
 
-  if (loading) return <Loading content="Loading..." />;
+  if (activityStore.loadingInitial) return <Loading content="Loading..." />;
   return (
     <>
       <Nav openForm={handleFormOpen} />
       <div className="max-w-2xl mx-auto mt-24 lg:max-w-4xl xl:max-w-6xl">
         <ActivityDashboard
-          activities={activities!}
+          activities={activityStore.activities}
           selectedActivity={selectedActivity}
           handleSelectActivity={handleSelectActivity}
           handleCancelSelectActivity={handleCancelSelectActivity}
@@ -93,4 +91,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);
