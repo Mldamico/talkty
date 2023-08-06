@@ -1,19 +1,16 @@
 import { ChangeEvent, useState } from "react";
-import { Activity } from "../../../types/Activities";
+import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface ActivityFormProps {
-  closeForm: () => void;
-  activity: Activity | undefined;
-  createOrEdit: (activity: Activity) => void;
-  submitting: boolean;
-}
-
-export const ActivityForm = ({
-  activity: selectedActivity,
-  closeForm,
-  createOrEdit,
-  submitting,
-}: ActivityFormProps) => {
+export const ActivityForm = observer(() => {
+  const { activityStore } = useStore();
+  const {
+    selectedActivity,
+    closeForm,
+    createActivity,
+    updateActivity,
+    loading,
+  } = activityStore;
   const initialState = selectedActivity ?? {
     id: "",
     title: "",
@@ -26,7 +23,7 @@ export const ActivityForm = ({
   const [activity, setActivity] = useState(initialState);
 
   const handleSubmit = () => {
-    createOrEdit(activity);
+    activity.id ? updateActivity(activity) : createActivity(activity);
   };
 
   const handleInputChange = (
@@ -93,13 +90,13 @@ export const ActivityForm = ({
         <div className="flex justify-between px-4 py-2">
           <button
             type="submit"
-            disabled={submitting}
+            disabled={loading}
             className="px-2 py-1 text-white bg-blue-500 rounded-md"
           >
             Submit
           </button>
           <button
-            disabled={submitting}
+            disabled={loading}
             type="button"
             className="text-red-500"
             onClick={() => closeForm()}
@@ -110,4 +107,4 @@ export const ActivityForm = ({
       </form>
     </div>
   );
-};
+});

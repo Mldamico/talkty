@@ -1,16 +1,15 @@
-import { Activity } from "../../../types/Activities";
+import { useStore } from "../../../app/stores/store";
 
-interface ActivityDetailsProps {
-  activity: Activity;
-  cancelSelectActivity: () => void;
-  openForm: (id: string) => void;
-}
+export const ActivityDetails = () => {
+  const { activityStore } = useStore();
+  const {
+    selectedActivity: activity,
+    openForm,
+    cancelSelectedActivity,
+  } = activityStore;
 
-export const ActivityDetails = ({
-  activity,
-  cancelSelectActivity,
-  openForm,
-}: ActivityDetailsProps) => {
+  if (!activity) return;
+
   return (
     <div className="flex flex-col gap-2 p-2 bg-white">
       <img src={`/assets/categoryImages/${activity.category}.jpg`} />
@@ -28,7 +27,7 @@ export const ActivityDetails = ({
         </button>
         <button
           className="px-2 py-1 text-red-500"
-          onClick={() => cancelSelectActivity()}
+          onClick={() => cancelSelectedActivity()}
         >
           Cancel
         </button>

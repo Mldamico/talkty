@@ -1,18 +1,19 @@
+import { useStore } from "../../../app/stores/store";
 import { Activity } from "../../../types/Activities";
 
 interface ActivityListProps {
   activities: Activity[];
-  handleSelectActivity: (id: string) => void;
+
   deleteActivity: (id: string) => void;
   submitting: boolean;
 }
 
 export const ActivityList = ({
   activities,
-  handleSelectActivity,
   deleteActivity,
   submitting,
 }: ActivityListProps) => {
+  const { activityStore } = useStore();
   return (
     <div className="p-4 bg-white">
       <div className="">
@@ -39,7 +40,7 @@ export const ActivityList = ({
                   </button>
                   <button
                     className="px-3 py-1 text-white bg-blue-500 rounded-sm"
-                    onClick={() => handleSelectActivity(activity.id)}
+                    onClick={() => activityStore.selectActivity(activity.id)}
                   >
                     View
                   </button>
