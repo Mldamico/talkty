@@ -1,17 +1,23 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import { useParams } from "react-router-dom";
+import { Activity } from "../../../types/Activities";
+import { Loading } from "../../../app/layout/Loading";
 
 export const ActivityForm = observer(() => {
   const { activityStore } = useStore();
+  const { id } = useParams();
   const {
     selectedActivity,
-    closeForm,
     createActivity,
     updateActivity,
     loading,
+    loadingInitial,
+    loadActivity,
   } = activityStore;
-  const initialState = selectedActivity ?? {
+
+  const [activity, setActivity] = useState<Activity>({
     id: "",
     title: "",
     description: "",
@@ -19,8 +25,11 @@ export const ActivityForm = observer(() => {
     date: "",
     city: "",
     venue: "",
-  };
-  const [activity, setActivity] = useState(initialState);
+  });
+
+  useEffect(() => {
+    if (id) loadActivity(id).then((activity) => setActivity(activity!));
+  }, [id, loadActivity]);
 
   const handleSubmit = () => {
     activity.id ? updateActivity(activity) : createActivity(activity);
@@ -32,6 +41,8 @@ export const ActivityForm = observer(() => {
     const { name, value } = e.target;
     setActivity({ ...activity, [name]: value });
   };
+
+  if (loadingInitial) return <Loading content="Loading activity..." />;
 
   return (
     <div className="p-2 mt-4 bg-white">
@@ -95,12 +106,7 @@ export const ActivityForm = observer(() => {
           >
             Submit
           </button>
-          <button
-            disabled={loading}
-            type="button"
-            className="text-red-500"
-            onClick={() => closeForm()}
-          >
+          <button disabled={loading} type="button" className="text-red-500">
             Cancel
           </button>
         </div>

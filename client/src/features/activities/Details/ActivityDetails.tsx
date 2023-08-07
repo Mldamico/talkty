@@ -1,14 +1,23 @@
+import { Link, useParams } from "react-router-dom";
 import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
+import { Loading } from "../../../app/layout/Loading";
 
-export const ActivityDetails = () => {
+export const ActivityDetails = observer(() => {
+  const { id } = useParams();
   const { activityStore } = useStore();
   const {
     selectedActivity: activity,
-    openForm,
-    cancelSelectedActivity,
+    loadActivity,
+    loadingInitial,
   } = activityStore;
 
-  if (!activity) return;
+  useEffect(() => {
+    if (id) loadActivity(id);
+  }, [id, loadActivity]);
+
+  if (loadingInitial || !activity) return <Loading />;
 
   return (
     <div className="flex flex-col gap-2 p-2 bg-white">
@@ -19,19 +28,15 @@ export const ActivityDetails = () => {
         <p>{activity.description}</p>
       </div>
       <div className="flex justify-between">
-        <button
-          className="px-2 py-1 text-white bg-blue-500 border border-gray-600 rounded-md"
-          onClick={() => openForm(activity.id)}
-        >
-          Edit
-        </button>
-        <button
-          className="px-2 py-1 text-red-500"
-          onClick={() => cancelSelectedActivity()}
-        >
-          Cancel
-        </button>
+        <Link to={`/manage/${activity.id}`}>
+          <button className="px-2 py-1 text-white bg-blue-500 border border-gray-600 rounded-md">
+            Edit
+          </button>
+        </Link>
+        <Link to={`/activities`}>
+          <button className="px-2 py-1 text-red-500">Cancel</button>
+        </Link>
       </div>
     </div>
   );
-};
+});

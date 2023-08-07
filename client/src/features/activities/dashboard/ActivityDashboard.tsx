@@ -1,20 +1,25 @@
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../app/stores/store";
-import { ActivityDetails } from "../Details/ActivityDetails";
-import { ActivityForm } from "../form/ActivityForm";
 import { ActivityList } from "./ActivityList";
+import { useEffect } from "react";
+import { Loading } from "../../../app/layout/Loading";
 
 export const ActivityDashboard = observer(() => {
   const { activityStore } = useStore();
-  const { selectedActivity, editMode } = activityStore;
+
+  useEffect(() => {
+    activityStore.loadActivities();
+  }, [activityStore]);
+
+  if (activityStore.loadingInitial) return <Loading content="Loading..." />;
+
   return (
     <div className="grid gap-4 grid-cols-[1.2fr_0.6fr]">
       <div className="">
         <ActivityList />
       </div>
       <div className="">
-        {selectedActivity && !editMode && <ActivityDetails />}
-        {editMode && <ActivityForm />}
+        <h2>Activity filters</h2>
       </div>
     </div>
   );

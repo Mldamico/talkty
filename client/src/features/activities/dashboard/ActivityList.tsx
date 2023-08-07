@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../app/stores/store";
 import { SyntheticEvent, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 export const ActivityList = observer(() => {
   const { activityStore } = useStore();
@@ -39,12 +40,11 @@ export const ActivityList = observer(() => {
                   >
                     Delete
                   </button>
-                  <button
-                    className="px-3 py-1 text-white bg-blue-500 rounded-sm"
-                    onClick={() => activityStore.selectActivity(activity.id)}
-                  >
-                    View
-                  </button>
+                  <NavLink to={`/activities/${activity.id}`}>
+                    <button className="px-3 py-1 text-white bg-blue-500 rounded-sm">
+                      View
+                    </button>
+                  </NavLink>
                 </div>
               </div>
             </div>
