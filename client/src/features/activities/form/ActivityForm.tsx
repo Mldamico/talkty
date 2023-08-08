@@ -1,9 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Activity } from "../../../types/Activities";
 import { Loading } from "../../../app/layout/Loading";
+import { v4 as uuid } from "uuid";
 
 export const ActivityForm = observer(() => {
   const { activityStore } = useStore();
@@ -16,6 +17,7 @@ export const ActivityForm = observer(() => {
     loadingInitial,
     loadActivity,
   } = activityStore;
+  const navigate = useNavigate();
 
   const [activity, setActivity] = useState<Activity>({
     id: "",
@@ -31,8 +33,19 @@ export const ActivityForm = observer(() => {
     if (id) loadActivity(id).then((activity) => setActivity(activity!));
   }, [id, loadActivity]);
 
-  const handleSubmit = () => {
-    activity.id ? updateActivity(activity) : createActivity(activity);
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!activity.id) {
+      activity.id = uuid();
+      createActivity(activity).then(() => {
+        navigate(`/activities/${activity.id}`);
+      });
+    } else {
+      updateActivity(activity).then(() => {
+        console.log("Navigating");
+        navigate(`/activities/${activity.id}`);
+      });
+    }
   };
 
   const handleInputChange = (
