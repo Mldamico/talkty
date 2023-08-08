@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Activity } from "../../../types/Activities";
 import { Loading } from "../../../app/layout/Loading";
 import { v4 as uuid } from "uuid";
@@ -118,9 +118,9 @@ export const ActivityForm = observer(() => {
           >
             Submit
           </button>
-          <button disabled={loading} type="button" className="text-red-500">
+          <Link to="/activities" type="button" className="text-red-500">
             Cancel
-          </button>
+          </Link>
         </div>
       </form>
     </div>
