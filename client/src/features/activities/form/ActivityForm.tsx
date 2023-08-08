@@ -10,7 +10,6 @@ export const ActivityForm = observer(() => {
   const { activityStore } = useStore();
   const { id } = useParams();
   const {
-    selectedActivity,
     createActivity,
     updateActivity,
     loading,
