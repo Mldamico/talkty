@@ -27,7 +27,7 @@ export const ActivityDetails = observer(() => {
     <div className="grid gap-4 grid-cols-[1.2fr_0.6fr]">
       <div>
         <ActivityDetailedHeader activity={activity} />
-        <ActivityDetailedInfo />
+        <ActivityDetailedInfo activity={activity} />
         <ActivityDetailedChat />
       </div>
       <div className="">

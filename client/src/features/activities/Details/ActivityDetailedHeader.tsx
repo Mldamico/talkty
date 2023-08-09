@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { Activity } from "../../../types/Activities";
 
 const activityImageStyle = {
@@ -8,10 +9,10 @@ interface Props {
   activity: Activity;
 }
 
-export const ActivityDetailedHeader = ({ activity }: Props) => {
+export const ActivityDetailedHeader = observer(({ activity }: Props) => {
   if (!activity) return "loading";
   return (
-    <div className="relative bg-white">
+    <div className="relative bg-white shadow-md">
       <div className="p-0">
         <img
           className="w-full"
@@ -46,4 +47,4 @@ export const ActivityDetailedHeader = ({ activity }: Props) => {
       </div>
     </div>
   );
-};
+});
