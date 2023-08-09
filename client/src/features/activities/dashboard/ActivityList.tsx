@@ -12,12 +12,10 @@ export const ActivityList = observer(() => {
       {groupedActivities.map(([group, activities]) => (
         <Fragment key={group}>
           <header className="py-4 text-xl font-bold">{group}</header>
-          <div className="p-4 bg-white">
-            <div className="">
-              {activities.map((activity) => (
-                <ActivityListItem key={activity.id} activity={activity} />
-              ))}
-            </div>
+          <div className="bg-white ">
+            {activities.map((activity) => (
+              <ActivityListItem key={activity.id} activity={activity} />
+            ))}
           </div>
         </Fragment>
       ))}

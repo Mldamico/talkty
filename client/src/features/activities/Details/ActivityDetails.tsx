@@ -3,6 +3,10 @@ import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { Loading } from "../../../app/layout/Loading";
+import { ActivityDetailedHeader } from "./ActivityDetailedHeader";
+import { ActivityDetailedInfo } from "./ActivityDetailedInfo";
+import { ActivityDetailedChat } from "./ActivityDetailedChat";
+import { ActivityDetailedSidebar } from "./ActivityDetailedSidebar";
 
 export const ActivityDetails = observer(() => {
   const { id } = useParams();
@@ -20,22 +24,14 @@ export const ActivityDetails = observer(() => {
   if (loadingInitial || !activity) return <Loading />;
 
   return (
-    <div className="flex flex-col gap-2 p-2 bg-white">
-      <img src={`/assets/categoryImages/${activity.category}.jpg`} />
+    <div className="grid gap-4 grid-cols-[1.2fr_0.6fr]">
       <div>
-        <h3 className="font-bold">{activity.title}</h3>
-        <span className="text-gray-500">{activity.date}</span>
-        <p>{activity.description}</p>
+        <ActivityDetailedHeader activity={activity} />
+        <ActivityDetailedInfo />
+        <ActivityDetailedChat />
       </div>
-      <div className="flex justify-between">
-        <Link to={`/manage/${activity.id}`}>
-          <button className="px-2 py-1 text-white bg-blue-500 border border-gray-600 rounded-md">
-            Edit
-          </button>
-        </Link>
-        <Link to={`/activities`}>
-          <button className="px-2 py-1 text-red-500">Cancel</button>
-        </Link>
+      <div className="">
+        <ActivityDetailedSidebar />
       </div>
     </div>
   );
