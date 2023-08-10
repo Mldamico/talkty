@@ -3,6 +3,7 @@ import { useStore } from "../../../app/stores/store";
 import { ActivityList } from "./ActivityList";
 import { useEffect } from "react";
 import { Loading } from "../../../app/layout/Loading";
+import { ActivityFilters } from "./ActivityFilters";
 
 export const ActivityDashboard = observer(() => {
   const { activityStore } = useStore();
@@ -20,7 +21,7 @@ export const ActivityDashboard = observer(() => {
         <ActivityList />
       </div>
       <div className="">
-        <h2>Activity filters</h2>
+        <ActivityFilters />
       </div>
     </div>
   );
