@@ -8,7 +8,7 @@ interface ActivityListItemProps {
 
 export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
   return (
-    <div className="border border-gray-500">
+    <div className="border border-gray-300 shadow-md">
       <div className="flex flex-col gap-2 pb-2 border-gray-300">
         <div className="flex items-center p-4 border-b border-gray-400">
           <img
@@ -42,7 +42,7 @@ export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
           <div className="flex justify-end px-4">
             <div className="flex gap-2">
               <NavLink to={`/activities/${activity.id}`}>
-                <button className="px-3 py-1 text-white bg-blue-500 rounded-sm">
+                <button className="px-3 py-1 text-white bg-blue-500 rounded-md">
                   View
                 </button>
               </NavLink>

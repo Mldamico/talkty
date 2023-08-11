@@ -110,7 +110,10 @@ export const ActivityForm = observer(() => {
           onChange={handleInputChange}
           className="p-1 mb-2 border border-gray-300 rounded-md"
         />
-        <div className="flex justify-between px-4 py-2">
+        <div className="flex items-center justify-end gap-6 px-4 py-2">
+          <Link to="/activities" type="button" className="text-red-500">
+            Cancel
+          </Link>
           <button
             type="submit"
             disabled={loading}
@@ -118,9 +121,6 @@ export const ActivityForm = observer(() => {
           >
             Submit
           </button>
-          <Link to="/activities" type="button" className="text-red-500">
-            Cancel
-          </Link>
         </div>
       </form>
     </div>
