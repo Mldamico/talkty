@@ -13,9 +13,9 @@ public class ActivitiesController : BaseApiController
     
 
     [HttpGet]
-    public async Task<ActionResult<List<Activity>>> GetActivities(CancellationToken ct)
+    public async Task<IActionResult> GetActivities(CancellationToken ct)
     {
-        return await Mediator.Send(new List.Query());
+        return HandleResult(await Mediator.Send(new List.Query()));
     }
 
     [HttpGet("{id}")]
@@ -27,8 +27,7 @@ public class ActivitiesController : BaseApiController
     [HttpPost]
     public async Task<IActionResult> CreateActivity(Activity activity)
     {
-        await Mediator.Send(new Create.Command {Activity = activity});
-        return Ok();
+        return HandleResult(await Mediator.Send(new Create.Command {Activity = activity}));
     }
 
     [HttpPut("{id}")]
