@@ -13,6 +13,9 @@ export const Nav = () => {
         <div className="">
           <NavLink to="/activities">Activities</NavLink>
         </div>
+        <div className="">
+          <NavLink to="/errors">Errors</NavLink>
+        </div>
         <NavLink to="/createactivity">
           <button className="p-2 bg-green-600 rounded-md">
             Create Activity
