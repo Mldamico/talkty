@@ -5,7 +5,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Activity } from "../../../types/Activities";
 import { Loading } from "../../../app/layout/Loading";
 import { v4 as uuid } from "uuid";
-import { Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
+import { Input } from "../../../app/common/form/Input";
 
 export const ActivityForm = observer(() => {
   const { activityStore } = useStore();
@@ -27,6 +29,15 @@ export const ActivityForm = observer(() => {
     date: "",
     city: "",
     venue: "",
+  });
+
+  const validationSchema = Yup.object({
+    title: Yup.string().required("The activity title is required"),
+    description: Yup.string().required("The activity description is required"),
+    category: Yup.string().required("The activity category is required"),
+    date: Yup.string().required("The activity date is required"),
+    venue: Yup.string().required("The activity venue is required"),
+    city: Yup.string().required("The activity city is required"),
   });
 
   useEffect(() => {
@@ -60,63 +71,24 @@ export const ActivityForm = observer(() => {
   return (
     <div className="p-2 mt-4 bg-white">
       <Formik
+        validationSchema={validationSchema}
         enableReinitialize
         initialValues={activity}
         onSubmit={(values) => console.log(values)}
       >
-        {({ values: activity, handleChange, handleSubmit }) => (
-          <form
+        {({ handleSubmit }) => (
+          <Form
             className="flex flex-col"
             onSubmit={handleSubmit}
             autoComplete="off"
           >
-            <input
-              type="text"
-              value={activity.title}
-              name="title"
-              onChange={handleChange}
-              placeholder="Title"
-              className="p-1 mb-2 border border-gray-300 rounded-md"
-            />
-            <textarea
-              placeholder="description"
-              value={activity.description}
-              name="description"
-              onChange={handleChange}
-              className="p-1 mb-2 border border-gray-300 rounded-md"
-            />
-            <input
-              type="text"
-              placeholder="Category"
-              value={activity.category}
-              onChange={handleChange}
-              name="category"
-              className="p-1 mb-2 border border-gray-300 rounded-md"
-            />
-            <input
-              placeholder="Date"
-              value={activity.date}
-              type="date"
-              name="date"
-              onChange={handleChange}
-              className="p-1 mb-2 border border-gray-300 rounded-md"
-            />
-            <input
-              type="text"
-              placeholder="City"
-              value={activity.city}
-              name="city"
-              onChange={handleChange}
-              className="p-1 mb-2 border border-gray-300 rounded-md"
-            />
-            <input
-              type="text"
-              placeholder="Venue"
-              value={activity.venue}
-              name="venue"
-              onChange={handleChange}
-              className="p-1 mb-2 border border-gray-300 rounded-md"
-            />
+            <Input name="title" placeholder="Title" />
+
+            <Input placeholder="description" name="description" />
+            <Input placeholder="Category" name="category" />
+            <Input placeholder="Date" name="date" />
+            <Input placeholder="City" name="city" />
+            <Input placeholder="Venue" name="venue" />
             <div className="flex items-center justify-end gap-6 px-4 py-2">
               <Link to="/activities" type="button" className="text-red-500">
                 Cancel
@@ -129,7 +101,7 @@ export const ActivityForm = observer(() => {
                 Submit
               </button>
             </div>
-          </form>
+          </Form>
         )}
       </Formik>
     </div>
