@@ -8,6 +8,7 @@ import { v4 as uuid } from "uuid";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Input } from "../../../app/common/form/Input";
+import { TextArea } from "../../../app/common/form/TextArea";
 
 export const ActivityForm = observer(() => {
   const { activityStore } = useStore();
@@ -84,7 +85,7 @@ export const ActivityForm = observer(() => {
           >
             <Input name="title" placeholder="Title" />
 
-            <Input placeholder="description" name="description" />
+            <TextArea rows={3} placeholder="description" name="description" />
             <Input placeholder="Category" name="category" />
             <Input placeholder="Date" name="date" />
             <Input placeholder="City" name="city" />
