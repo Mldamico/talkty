@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Activity } from "../../../types/Activities";
+import { Link } from "react-router-dom";
 
 const activityImageStyle = {
   filter: "brightness(30%)",
@@ -41,9 +42,12 @@ export const ActivityDetailedHeader = observer(({ activity }: Props) => {
             Cancel attendance
           </button>
         </div>
-        <button className="px-3 py-2 text-white bg-orange-400 rounded-md">
+        <Link
+          to={`/manage/${activity.id}`}
+          className="px-3 py-2 text-white bg-orange-400 rounded-md"
+        >
           Manage Event
-        </button>
+        </Link>
       </div>
     </div>
   );

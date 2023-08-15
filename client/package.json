@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/react-calendar": "^4.1.0",
     "axios": "^1.4.0",
+    "formik": "^2.4.3",
     "mobx": "^6.10.0",
     "mobx-react-lite": "^4.0.3",
     "path": "^0.12.7",
