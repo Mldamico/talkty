@@ -30,7 +30,11 @@ export const SelectInput = (props: Props) => {
         } py-1 px-2 my-1 rounded-lg border outline-none`}
       >
         {props.options.map((option: OptionsTypes) => (
-          <option value={option.value} key={option.value}>
+          <option
+            disabled={option.value === ""}
+            value={option.value}
+            key={option.value}
+          >
             {option.text}
           </option>
         ))}

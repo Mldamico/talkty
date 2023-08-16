@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Activity } from "../../../types/Activities";
 import { Loading } from "../../../app/layout/Loading";
 import { v4 as uuid } from "uuid";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Input } from "../../../app/common/form/Input";
 import { TextArea } from "../../../app/common/form/TextArea";
@@ -16,13 +16,8 @@ import { DateInput } from "../../../app/common/form/DateInput";
 export const ActivityForm = observer(() => {
   const { activityStore } = useStore();
   const { id } = useParams();
-  const {
-    createActivity,
-    updateActivity,
-    loading,
-    loadingInitial,
-    loadActivity,
-  } = activityStore;
+  const { createActivity, updateActivity, loadingInitial, loadActivity } =
+    activityStore;
   const navigate = useNavigate();
 
   const [activity, setActivity] = useState<Activity>({
@@ -48,39 +43,32 @@ export const ActivityForm = observer(() => {
     if (id) loadActivity(id).then((activity) => setActivity(activity!));
   }, [id, loadActivity]);
 
-  // const handleSubmit = (e: React.SyntheticEvent) => {
-  //   e.preventDefault();
-  //   if (!activity.id) {
-  //     activity.id = uuid();
-  //     createActivity(activity).then(() => {
-  //       navigate(`/activities/${activity.id}`);
-  //     });
-  //   } else {
-  //     updateActivity(activity).then(() => {
-  //       console.log("Navigating");
-  //       navigate(`/activities/${activity.id}`);
-  //     });
-  //   }
-  // };
-
-  // const handleInputChange = (
-  //   e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   const { name, value } = e.target;
-  //   setActivity({ ...activity, [name]: value });
-  // };
+  const handleFormSubmit = (activity: Activity) => {
+    if (!activity.id) {
+      activity.id = uuid();
+      createActivity(activity).then(() => {
+        navigate(`/activities/${activity.id}`);
+      });
+    } else {
+      updateActivity(activity).then(() => {
+        console.log("Navigating");
+        navigate(`/activities/${activity.id}`);
+      });
+    }
+  };
 
   if (loadingInitial) return <Loading content="Loading activity..." />;
 
   return (
     <div className="p-2 mt-4 bg-white">
+      <h2 className="text-xl text-blue-600">Activity Details</h2>
       <Formik
         validationSchema={validationSchema}
         enableReinitialize
         initialValues={activity}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => handleFormSubmit(values)}
       >
-        {({ handleSubmit }) => (
+        {({ handleSubmit, isValid, isSubmitting, dirty }) => (
           <Form
             className="flex flex-col"
             onSubmit={handleSubmit}
@@ -101,6 +89,7 @@ export const ActivityForm = observer(() => {
               timeCaption="time"
               dateFormat="MMMM d, yyyy h:mm aa"
             />
+            <h2 className="text-xl text-blue-600">Location Details</h2>
             <Input placeholder="City" name="city" />
             <Input placeholder="Venue" name="venue" />
             <div className="flex items-center justify-end gap-6 px-4 py-2">
@@ -109,8 +98,8 @@ export const ActivityForm = observer(() => {
               </Link>
               <button
                 type="submit"
-                disabled={loading}
-                className="px-2 py-1 text-white bg-blue-500 rounded-md"
+                disabled={isSubmitting || !dirty || !isValid}
+                className={`disabled:bg-gray-400 px-2 py-1 text-white bg-blue-500 rounded-md`}
               >
                 Submit
               </button>

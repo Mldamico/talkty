@@ -1,5 +1,9 @@
 export const categoryOptions = [
   {
+    text: "Choose options",
+    value: "",
+  },
+  {
     text: "Drinks",
     value: "drinks",
   },
