@@ -1,9 +1,14 @@
 import { useField } from "formik";
 
+type OptionsTypes = {
+  value: string;
+  text: string;
+};
+
 interface Props {
   placeholder: string;
   name: string;
-  options: any;
+  options: OptionsTypes[];
   label?: string;
 }
 
@@ -24,7 +29,7 @@ export const SelectInput = (props: Props) => {
             : "bg-white border-gray-300"
         } py-1 px-2 my-1 rounded-lg border outline-none`}
       >
-        {props.options.map((option: any) => (
+        {props.options.map((option: OptionsTypes) => (
           <option value={option.value} key={option.value}>
             {option.text}
           </option>

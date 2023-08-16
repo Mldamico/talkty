@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { Activity } from "../../../types/Activities";
 import { Link } from "react-router-dom";
+import { format } from "date-fns";
 
 const activityImageStyle = {
   filter: "brightness(30%)",
@@ -25,7 +26,7 @@ export const ActivityDetailedHeader = observer(({ activity }: Props) => {
             <div className="absolute z-10 w-full h-auto text-white bottom-[25%] left-8">
               <h3 className="text-3xl">{activity.title}</h3>
 
-              <p>{activity.date}</p>
+              <p>{format(activity.date!, "dd MMM yyyy")}</p>
               <p>
                 Hosted by <strong>Bob</strong>
               </p>

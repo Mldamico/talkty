@@ -11,6 +11,7 @@ import { Input } from "../../../app/common/form/Input";
 import { TextArea } from "../../../app/common/form/TextArea";
 import { SelectInput } from "../../../app/common/form/SelectInput";
 import { categoryOptions } from "../../../app/common/options/categoryOptions";
+import { DateInput } from "../../../app/common/form/DateInput";
 
 export const ActivityForm = observer(() => {
   const { activityStore } = useStore();
@@ -29,7 +30,7 @@ export const ActivityForm = observer(() => {
     title: "",
     description: "",
     category: "",
-    date: "",
+    date: null,
     city: "",
     venue: "",
   });
@@ -93,7 +94,13 @@ export const ActivityForm = observer(() => {
               placeholder="Category"
               name="category"
             />
-            <Input placeholder="Date" name="date" />
+            <DateInput
+              placeholderText="Date"
+              name="date"
+              showTimeSelect
+              timeCaption="time"
+              dateFormat="MMMM d, yyyy h:mm aa"
+            />
             <Input placeholder="City" name="city" />
             <Input placeholder="Venue" name="venue" />
             <div className="flex items-center justify-end gap-6 px-4 py-2">

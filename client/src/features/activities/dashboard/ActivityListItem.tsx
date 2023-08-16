@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { Activity } from "../../../types/Activities";
 import { AiFillClockCircle } from "react-icons/ai";
 import { FaLocationPin } from "react-icons/fa6";
+import { format } from "date-fns";
 interface ActivityListItemProps {
   activity: Activity;
 }
@@ -23,7 +24,9 @@ export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
             <span>
               <AiFillClockCircle />
             </span>
-            <p className="text-gray-500">{activity.date}</p>
+            <p className="text-gray-500">
+              {format(activity.date!, "dd MMM yyyy h:mm aa")}
+            </p>
             <span>
               <FaLocationPin />
             </span>

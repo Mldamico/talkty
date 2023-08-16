@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Activity } from "../../../types/Activities";
 import { IoInformationOutline, IoCalendarClearOutline } from "react-icons/io5";
 import { LiaMapMarkerSolid } from "react-icons/lia";
+import { format } from "date-fns";
 interface Props {
   activity: Activity;
 }
@@ -21,7 +22,7 @@ export const ActivityDetailedInfo = observer(({ activity }: Props) => {
         <div className="flex items-center gap-2">
           <IoCalendarClearOutline />
           <div>
-            <span>{activity.date}</span>
+            <span>{format(activity.date!, "dd MMM yyyy h:mm aa")}</span>
           </div>
         </div>
       </div>
