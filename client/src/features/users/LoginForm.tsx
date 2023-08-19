@@ -1,4 +1,4 @@
-import { Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import { Input } from "../../app/common/form/Input";
 import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
@@ -7,13 +7,25 @@ export const LoginForm = observer(() => {
   const { userStore } = useStore();
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
-      onSubmit={(values) => userStore.login(values)}
+      initialValues={{ email: "", password: "", error: null }}
+      onSubmit={(values, { setErrors }) =>
+        userStore
+          .login(values)
+          .catch((_) => setErrors({ error: "Invalid email or password" }))
+      }
     >
-      {({ handleSubmit, isSubmitting }) => (
+      {({ handleSubmit, isSubmitting, errors }) => (
         <Form className="" onSubmit={handleSubmit} autoComplete="off">
           <Input placeholder="Email" name="email" />
           <Input placeholder="Password" name="password" type="password" />
+          <ErrorMessage
+            name="error"
+            render={() => (
+              <p className="inline-block px-2 my-1 text-red-600 bg-white border-2 border-red-600 rounded-md">
+                {errors.error}
+              </p>
+            )}
+          ></ErrorMessage>
           <button
             type="submit"
             disabled={isSubmitting}
