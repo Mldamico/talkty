@@ -11,9 +11,9 @@ export const HomePage = () => {
         <h2 className="text-white">Welcome to Talkty</h2>
         <Link
           className="flex justify-center py-2 mt-2 text-white border-2 border-white"
-          to="/activities"
+          to="/login"
         >
-          Go to talkty
+          Login
         </Link>
       </div>
     </div>
