@@ -1,5 +1,5 @@
 interface Props {
-  errors: string[];
+  errors: any;
 }
 
 export const ValidationError = ({ errors }: Props) => {

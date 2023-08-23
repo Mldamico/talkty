@@ -3,6 +3,7 @@ import { Input } from "../../app/common/form/Input";
 import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import * as Yup from "yup";
+import { ValidationError } from "../errors/ValidationError";
 
 export const RegisterForm = observer(() => {
   const { userStore } = useStore();
@@ -17,9 +18,7 @@ export const RegisterForm = observer(() => {
         error: null,
       }}
       onSubmit={(values, { setErrors }) =>
-        userStore
-          .register(values)
-          .catch((_) => setErrors({ error: "Invalid email or password" }))
+        userStore.register(values).catch((error) => setErrors({ error }))
       }
       validationSchema={Yup.object({
         displayName: Yup.string().required(),
@@ -29,7 +28,7 @@ export const RegisterForm = observer(() => {
       })}
     >
       {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
-        <Form className="" onSubmit={handleSubmit} autoComplete="off">
+        <Form className="error" onSubmit={handleSubmit} autoComplete="off">
           <h2 className="mb-2 text-2xl text-center text-blue-600">
             Sign up to Talkty
           </h2>
@@ -39,11 +38,7 @@ export const RegisterForm = observer(() => {
           <Input placeholder="Password" name="password" type="password" />
           <ErrorMessage
             name="error"
-            render={() => (
-              <p className="inline-block px-2 my-1 text-red-600 bg-white border-2 border-red-600 rounded-md">
-                {errors.error}
-              </p>
-            )}
+            render={() => <ValidationError errors={errors.error} />}
           ></ErrorMessage>
           <button
             type="submit"
