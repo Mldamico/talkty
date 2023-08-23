@@ -2,23 +2,39 @@ import { ErrorMessage, Form, Formik } from "formik";
 import { Input } from "../../app/common/form/Input";
 import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import * as Yup from "yup";
 
-export const LoginForm = observer(() => {
+export const RegisterForm = observer(() => {
   const { userStore } = useStore();
+
   return (
     <Formik
-      initialValues={{ email: "", password: "", error: null }}
+      initialValues={{
+        displayName: "",
+        username: "",
+        email: "",
+        password: "",
+        error: null,
+      }}
       onSubmit={(values, { setErrors }) =>
         userStore
-          .login(values)
+          .register(values)
           .catch((_) => setErrors({ error: "Invalid email or password" }))
       }
+      validationSchema={Yup.object({
+        displayName: Yup.string().required(),
+        username: Yup.string().required(),
+        email: Yup.string().required(),
+        password: Yup.string().required(),
+      })}
     >
-      {({ handleSubmit, isSubmitting, errors }) => (
+      {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
         <Form className="" onSubmit={handleSubmit} autoComplete="off">
           <h2 className="mb-2 text-2xl text-center text-blue-600">
-            Login to Talkty
+            Sign up to Talkty
           </h2>
+          <Input placeholder="Display Name" name="displayName" />
+          <Input placeholder="Username" name="username" />
           <Input placeholder="Email" name="email" />
           <Input placeholder="Password" name="password" type="password" />
           <ErrorMessage
@@ -31,10 +47,10 @@ export const LoginForm = observer(() => {
           ></ErrorMessage>
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={!isValid || !dirty || isSubmitting}
             className="container py-1 mt-2 text-white bg-blue-500 rounded-lg shadow-lg"
           >
-            Login
+            Register
           </button>
         </Form>
       )}

@@ -11,7 +11,6 @@ export const ModalContainer = observer(() => {
       onClose={modalStore.closeModal}
     >
       <Modal.Body>{modalStore.modal.body}</Modal.Body>
-      <Modal.Footer></Modal.Footer>
     </Modal>
   );
 });

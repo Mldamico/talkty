@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import { LoginForm } from "../users/LoginForm";
+import { RegisterForm } from "../users/RegisterForm";
 
 export const HomePage = observer(() => {
   const { userStore, modalStore } = useStore();
@@ -32,7 +33,7 @@ export const HomePage = observer(() => {
             </button>
             <button
               className="flex justify-center flex-grow py-2 mt-2 text-white border-2 border-white"
-              onClick={() => modalStore.openModal(<h1>Register</h1>)}
+              onClick={() => modalStore.openModal(<RegisterForm />)}
             >
               Register
             </button>
