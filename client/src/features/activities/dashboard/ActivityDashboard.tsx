@@ -13,7 +13,8 @@ export const ActivityDashboard = observer(() => {
     if (activityRegistry.size <= 1) loadActivities();
   }, [loadActivities, activityRegistry.size]);
 
-  if (activityStore.loadingInitial) return <Loading content="Loading..." />;
+  if (activityStore.loadingInitial)
+    return <Loading content="Loading activities..." />;
 
   return (
     <div className="grid gap-4 grid-cols-[1.2fr_0.6fr]">

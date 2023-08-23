@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import { LoginForm } from "../users/LoginForm";
 
 export const HomePage = observer(() => {
-  const { userStore } = useStore();
+  const { userStore, modalStore } = useStore();
   return (
     <div className="flex flex-col items-center justify-center masthead">
       <div>
@@ -22,12 +23,20 @@ export const HomePage = observer(() => {
             </Link>
           </>
         ) : (
-          <Link
-            className="flex justify-center py-2 mt-2 text-white border-2 border-white"
-            to="/login"
-          >
-            Login
-          </Link>
+          <div className="flex gap-2">
+            <button
+              className="flex justify-center flex-grow py-2 mt-2 text-white border-2 border-white"
+              onClick={() => modalStore.openModal(<LoginForm />)}
+            >
+              Login
+            </button>
+            <button
+              className="flex justify-center flex-grow py-2 mt-2 text-white border-2 border-white"
+              onClick={() => modalStore.openModal(<h1>Register</h1>)}
+            >
+              Register
+            </button>
+          </div>
         )}
       </div>
     </div>
