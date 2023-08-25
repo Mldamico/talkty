@@ -17,7 +17,7 @@ public class ActivitiesController : BaseApiController
     {
         return HandleResult(await Mediator.Send(new List.Query()));
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetActivityById(Guid id)
     {
@@ -41,5 +41,11 @@ public class ActivitiesController : BaseApiController
     public async Task<IActionResult> DeleteActivity(Guid id)
     {
         return HandleResult(await Mediator.Send(new Delete.Command {Id = id}));
+    }
+
+    [HttpPost("{id}/attend")]
+    public async Task<IActionResult> Attend(Guid id)
+    {
+        return HandleResult(await Mediator.Send(new UpdateAttendance.Command {Id = id}));
     }
 }
