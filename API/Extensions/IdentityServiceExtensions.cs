@@ -2,7 +2,9 @@ using System.Text;
 using API.services;
 using Application;
 using Domain;
+using Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 
 namespace API.Extensions;
@@ -15,12 +17,11 @@ public static class IdentityServiceExtensions
             {
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.User.RequireUniqueEmail = true;
-                
             })
             .AddEntityFrameworkStores<DataContext>();
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
-        
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(opt =>
             {
@@ -32,7 +33,12 @@ public static class IdentityServiceExtensions
                     ValidateAudience = false,
                 };
             });
+        services.AddAuthorization(opt =>
+        {
+            opt.AddPolicy("IsActivityHost", policy => { policy.Requirements.Add(new IsHostRequirement()); });
+        });
 
+        services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
         services.AddScoped<TokenService>();
 
         return services;
