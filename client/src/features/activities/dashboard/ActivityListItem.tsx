@@ -3,6 +3,7 @@ import { Activity } from "../../../types/Activities";
 import { AiFillClockCircle } from "react-icons/ai";
 import { FaLocationPin } from "react-icons/fa6";
 import { format } from "date-fns";
+import { ActivityListItemAttendee } from "./ActivityListItemAttendee";
 interface ActivityListItemProps {
   activity: Activity;
 }
@@ -36,7 +37,7 @@ export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
           </div>
         </div>
         <div className="px-2 py-3 bg-gray-200 border-gray-600 border-y">
-          Text placeholder
+          <ActivityListItemAttendee attendees={activity.attendees!} />
         </div>
 
         <div className="p-4">
