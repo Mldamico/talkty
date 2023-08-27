@@ -148,6 +148,7 @@ export default class ActivityStore {
   };
 
   updateAttendance = async () => {
+    console.log("entro");
     const user = store.userStore.user;
     this.loading = true;
     try {
@@ -164,6 +165,26 @@ export default class ActivityStore {
           this.selectedActivity?.attendees?.push(attendee);
           this.selectedActivity!.isGoing = true;
         }
+        this.activityRegistry.set(
+          this.selectedActivity!.id,
+          this.selectedActivity!
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      runInAction(() => (this.loading = false));
+    }
+  };
+
+  cancelActivityToggle = async () => {
+    this.loading = true;
+    try {
+      console.log("llamado");
+      await agent.Activities.attend(this.selectedActivity!.id);
+      runInAction(() => {
+        this.selectedActivity!.isCancelled =
+          !this.selectedActivity?.isCancelled;
         this.activityRegistry.set(
           this.selectedActivity!.id,
           this.selectedActivity!

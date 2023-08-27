@@ -11,6 +11,11 @@ interface ActivityListItemProps {
 export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
   return (
     <div className="border border-gray-300 shadow-md">
+      {activity.isCancelled && (
+        <p className="py-1 font-semibold text-center text-white bg-red-700">
+          Cancelled
+        </p>
+      )}
       <div className="flex flex-col gap-2 pb-2 border-gray-300">
         <div className="flex items-center p-4 border-b border-gray-400">
           <img

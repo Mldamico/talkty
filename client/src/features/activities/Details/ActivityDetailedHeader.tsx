@@ -14,11 +14,16 @@ interface Props {
 
 export const ActivityDetailedHeader = observer(({ activity }: Props) => {
   const {
-    activityStore: { updateAttendance, loading },
+    activityStore: { updateAttendance, loading, cancelActivityToggle },
   } = useStore();
   if (!activity) return "loading";
   return (
     <div className="relative bg-white shadow-md">
+      {activity.isCancelled && (
+        <div className="absolute z-30 px-2 bg-red-700 rounded-md -left-4 top-4">
+          <p className="text-white">Cancelled</p>
+        </div>
+      )}
       <div className="p-0">
         <img
           className="w-full"
@@ -44,14 +49,29 @@ export const ActivityDetailedHeader = observer(({ activity }: Props) => {
         </div>
       </div>
       <div className="flex justify-between p-4">
-        <div className="flex gap-4">
+        <div className="flex w-full gap-4">
           {activity.isHost ? (
-            <Link
-              to={`/manage/${activity.id}`}
-              className="px-3 py-2 text-white bg-orange-400 rounded-md"
-            >
-              Manage Event
-            </Link>
+            <div className="flex items-center justify-between w-full">
+              <button
+                className={
+                  activity.isCancelled
+                    ? "bg-green-600 px-3 py-2 text-white  rounded-md"
+                    : "bg-red-600 px-3 py-2 text-white  rounded-md"
+                }
+                onClick={cancelActivityToggle}
+                disabled={loading}
+              >
+                {activity.isCancelled
+                  ? "Reactivate Activity"
+                  : "Cancel Activity"}
+              </button>
+              <Link
+                to={`/manage/${activity.id}`}
+                className="px-3 py-2 text-white bg-orange-400 rounded-md"
+              >
+                Manage Event
+              </Link>
+            </div>
           ) : activity.isGoing ? (
             <button
               className="px-3 py-2 text-white bg-red-400 rounded-md"
