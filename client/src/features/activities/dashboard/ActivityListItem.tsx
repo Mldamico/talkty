@@ -18,7 +18,22 @@ export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
             src="/assets/user.png"
             alt="User"
           />
-          <h3 className="ml-4 text-xl font-bold">{activity.title}</h3>
+          <div className="ml-4">
+            <h3 className="text-xl font-bold ">{activity.title}</h3>
+            <div>
+              <p>Hosted by {activity.host?.displayName}</p>
+              {activity.isHost && (
+                <p className="px-2 py-1 font-semibold text-blue-600 border border-blue-600 rounded-sm">
+                  You are hosting this activity
+                </p>
+              )}
+              {activity.isGoing && !activity.isHost && (
+                <p className="px-2 py-1 font-semibold text-green-600 border border-green-600 rounded-sm">
+                  You are going to this activity
+                </p>
+              )}
+            </div>
+          </div>
         </div>
         <div className="p-4">
           <div className="flex items-center gap-2">

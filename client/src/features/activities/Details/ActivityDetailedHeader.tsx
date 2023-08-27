@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Activity } from "../../../types/Activities";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import { useStore } from "../../../app/stores/store";
 
 const activityImageStyle = {
   filter: "brightness(30%)",
@@ -12,6 +13,9 @@ interface Props {
 }
 
 export const ActivityDetailedHeader = observer(({ activity }: Props) => {
+  const {
+    activityStore: { updateAttendance, loading },
+  } = useStore();
   if (!activity) return "loading";
   return (
     <div className="relative bg-white shadow-md">
@@ -28,7 +32,12 @@ export const ActivityDetailedHeader = observer(({ activity }: Props) => {
 
               <p>{format(activity.date!, "dd MMM yyyy")}</p>
               <p>
-                Hosted by <strong>Bob</strong>
+                Hosted by{" "}
+                <strong>
+                  <Link to={`/profiles/${activity.host?.username}`}>
+                    {activity.host?.displayName}
+                  </Link>
+                </strong>
               </p>
             </div>
           </div>
@@ -36,19 +45,31 @@ export const ActivityDetailedHeader = observer(({ activity }: Props) => {
       </div>
       <div className="flex justify-between p-4">
         <div className="flex gap-4">
-          <button className="px-3 py-2 font-bold rounded-md bg-cyan-400">
-            Join Activity
-          </button>
-          <button className="px-3 py-2 text-white bg-red-400 rounded-md">
-            Cancel attendance
-          </button>
+          {activity.isHost ? (
+            <Link
+              to={`/manage/${activity.id}`}
+              className="px-3 py-2 text-white bg-orange-400 rounded-md"
+            >
+              Manage Event
+            </Link>
+          ) : activity.isGoing ? (
+            <button
+              className="px-3 py-2 text-white bg-red-400 rounded-md"
+              onClick={updateAttendance}
+              disabled={loading}
+            >
+              Cancel attendance
+            </button>
+          ) : (
+            <button
+              className="px-3 py-2 font-bold rounded-md bg-cyan-400"
+              onClick={updateAttendance}
+              disabled={loading}
+            >
+              Join Activity
+            </button>
+          )}
         </div>
-        <Link
-          to={`/manage/${activity.id}`}
-          className="px-3 py-2 text-white bg-orange-400 rounded-md"
-        >
-          Manage Event
-        </Link>
       </div>
     </div>
   );
