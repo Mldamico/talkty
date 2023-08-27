@@ -31,7 +31,7 @@ export const ActivityDetails = observer(() => {
         <ActivityDetailedChat />
       </div>
       <div className="">
-        <ActivityDetailedSidebar />
+        <ActivityDetailedSidebar attendees={activity.attendees!} />
       </div>
     </div>
   );

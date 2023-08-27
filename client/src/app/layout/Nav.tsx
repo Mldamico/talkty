@@ -7,7 +7,7 @@ export const Nav = observer(() => {
     userStore: { user, logout },
   } = useStore();
   return (
-    <div className="fixed top-0 w-full text-white nav">
+    <div className="fixed top-0 z-50 w-full text-white nav">
       <div className="flex items-center justify-between max-w-2xl p-3 m-auto lg:max-w-4xl xl:max-w-6xl">
         <div className="flex flex-row items-center gap-6">
           <header>
