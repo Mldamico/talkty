@@ -1,3 +1,4 @@
+using API.DTOs;
 using Application.Activities;
 using AutoMapper;
 using Domain;
@@ -13,12 +14,15 @@ public class MappingProfiles : Profile
             .ForMember(d => d.HostUsername,
                 options => options
                     .MapFrom(source => source.Attendees.FirstOrDefault(x => x.IsHost).AppUser.UserName));
-        CreateMap<ActivityAttendee, Profiles.Profile>()
+        CreateMap<ActivityAttendee, AttendeeDto>()
             .ForMember(d => d.DisplayName,
                 o => o.MapFrom(s => s.AppUser.DisplayName))
             .ForMember(d => d.Username,
                 o => o.MapFrom(s => s.AppUser.UserName))
             .ForMember(d => d.Bio,
-                o => o.MapFrom(s => s.AppUser.Bio));
+                o => o.MapFrom(s => s.AppUser.Bio))
+            .ForMember(x => x.Image, opt => opt.MapFrom(a => a.AppUser.Photos.FirstOrDefault(x => x.IsMain).Url));
+        CreateMap<AppUser, Profiles.Profile>()
+            .ForMember(x => x.Image, opt => opt.MapFrom(a => a.Photos.FirstOrDefault(x => x.IsMain).Url));
     }
 }
