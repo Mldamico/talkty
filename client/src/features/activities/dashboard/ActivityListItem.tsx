@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Activity } from "../../../types/Activities";
 import { AiFillClockCircle } from "react-icons/ai";
 import { FaLocationPin } from "react-icons/fa6";
@@ -20,13 +20,18 @@ export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
         <div className="flex items-center p-4 border-b border-gray-400">
           <img
             className="w-20 rounded-full"
-            src="/assets/user.png"
-            alt="User"
+            src={activity.host?.image || "/assets/user.png"}
+            alt={activity.host?.username || "User"}
           />
           <div className="ml-4">
             <h3 className="text-xl font-bold ">{activity.title}</h3>
             <div>
-              <p>Hosted by {activity.host?.displayName}</p>
+              <p>
+                Hosted by{" "}
+                <Link to={`/profiles/${activity.host?.username}`}>
+                  {activity.host?.displayName}
+                </Link>{" "}
+              </p>
               {activity.isHost && (
                 <p className="px-2 py-1 font-semibold text-blue-600 border border-blue-600 rounded-sm">
                   You are hosting this activity

@@ -31,7 +31,7 @@ export const Nav = observer(() => {
 
         <div className="flex flex-row items-center gap-3">
           <div className="flex gap-2">
-            <NavLink to={`/profile/${user?.username}`}>My Profile</NavLink>
+            <NavLink to={`/profiles/${user?.username}`}>My Profile</NavLink>
             <button onClick={logout}>Logout</button>
           </div>
           <img
