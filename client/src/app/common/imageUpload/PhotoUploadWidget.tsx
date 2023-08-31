@@ -4,21 +4,24 @@ import { PhotoWidgetCropper } from "./PhotoWidgetCropper";
 import { AiOutlineCheck } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 
-export const PhotoUploadWidget = () => {
+interface Props {
+  loading: boolean;
+  uploadPhoto: (file: Blob) => void;
+}
+
+export const PhotoUploadWidget = ({ loading, uploadPhoto }: Props) => {
   const [files, setFiles] = useState<any>([]);
   const [cropper, setCropper] = useState<Cropper>();
 
   function onCrop() {
     if (cropper) {
-      cropper.getCroppedCanvas().toBlob((blob) => console.log(blob));
+      cropper.getCroppedCanvas().toBlob((blob) => uploadPhoto(blob!));
     }
   }
 
   useEffect(() => {
     return () => {
-      files.forEach((file: any) => {
-        URL.revokeObjectURL(file.preview);
-      });
+      files.forEach((file: any) => URL.revokeObjectURL(file.preview));
     };
   }, [files]);
 
@@ -37,20 +40,22 @@ export const PhotoUploadWidget = () => {
           />
         )}
       </div>
-      <div className="text-center font-bold text-blue-600 flex flex-col items-center">
+      <div className=" font-bold text-blue-600 flex flex-col items-center ">
         <h2>'Step 3 - Preview & Upload'</h2>
+        <div className="img-preview overflow-hidden min-h-[200px] w-full h-fit " />
         {files && files.length > 0 && (
           <>
-            <div className="img-preview overflow-hidden min-h-[200px]" />
             <div className="flex w-full justify-center gap-4 pt-2">
               <button
                 onClick={onCrop}
+                disabled={loading}
                 className="bg-green-500 text-white px-6 rounded-md py-2"
               >
                 <AiOutlineCheck />
               </button>
               <button
                 onClick={() => setFiles([])}
+                disabled={loading}
                 className="bg-red-500 text-white px-6 rounded-md py-2"
               >
                 <RxCross1 />

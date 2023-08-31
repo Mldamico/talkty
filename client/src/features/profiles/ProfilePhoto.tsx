@@ -9,10 +9,13 @@ interface Props {
 }
 export const ProfilePhoto = observer(({ profile }: Props) => {
   const {
-    profileStore: { isCurrentUser },
+    profileStore: { isCurrentUser, uploadPhoto, uploading },
   } = useStore();
 
   const [addPhotoMode, setAddPhotoMode] = useState(false);
+  function handlePhotoUpload(file: Blob) {
+    uploadPhoto(file).then(() => setAddPhotoMode(false));
+  }
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -28,7 +31,10 @@ export const ProfilePhoto = observer(({ profile }: Props) => {
       </div>
       <div className="">
         {addPhotoMode ? (
-          <PhotoUploadWidget />
+          <PhotoUploadWidget
+            uploadPhoto={handlePhotoUpload}
+            loading={uploading}
+          />
         ) : (
           <div className="grid gap-3 grid-cols-5">
             {profile.photos?.map((photo) => (
