@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Profile } from "../../types/profile";
 import { useStore } from "../../app/stores/store";
 import { useState } from "react";
+import { PhotoUploadWidget } from "../../app/common/imageUpload/PhotoUploadWidget";
 
 interface Props {
   profile: Profile;
@@ -27,7 +28,7 @@ export const ProfilePhoto = observer(({ profile }: Props) => {
       </div>
       <div className="">
         {addPhotoMode ? (
-          <p>Photo widget</p>
+          <PhotoUploadWidget />
         ) : (
           <div className="grid gap-3 grid-cols-5">
             {profile.photos?.map((photo) => (
