@@ -5,7 +5,15 @@ import {
   MdOutlineEvent,
   MdPersonOutline,
 } from "react-icons/md";
-export const ProfileContent = () => {
+import { ProfilePhoto } from "./ProfilePhoto";
+import { Profile } from "../../types/profile";
+import { observer } from "mobx-react-lite";
+
+interface Props {
+  profile: Profile;
+}
+
+export const ProfileContent = observer(({ profile }: Props) => {
   const panes = [
     {
       menuItem: "About",
@@ -14,7 +22,7 @@ export const ProfileContent = () => {
     },
     {
       menuItem: "Photos",
-      render: () => <div>Photos content</div>,
+      render: () => <ProfilePhoto profile={profile} />,
       icon: MdPhotoSizeSelectActual,
     },
     {
@@ -44,7 +52,7 @@ export const ProfileContent = () => {
       </Tabs.Group>
     </div>
   );
-};
+});
 
 const customTheme: CustomFlowbiteTheme["tab"] = {
   tablist: {

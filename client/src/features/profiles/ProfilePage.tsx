@@ -20,8 +20,12 @@ export const ProfilePage = observer(() => {
   if (loadingProfile) return <Loading content="Loading..." />;
   return (
     <div>
-      {profile && <ProfileHeader profile={profile} />}
-      <ProfileContent />
+      {profile && (
+        <>
+          <ProfileHeader profile={profile} />
+          <ProfileContent profile={profile} />
+        </>
+      )}
     </div>
   );
 });
