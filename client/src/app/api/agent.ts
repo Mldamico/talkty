@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
 import { User, UserFormValues } from "../../types/user";
+import { Profile } from "../../types/profile";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -85,9 +86,14 @@ const Account = {
     requests.post<User>("/account/register", user),
 };
 
+const Profiles = {
+  get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
+};
+
 const agent = {
   Activities,
   Account,
+  Profiles,
 };
 
 export default agent;
