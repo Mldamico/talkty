@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { Photo, Profile } from "../../types/profile";
 import { useStore } from "../../app/stores/store";
-import { SyntheticEvent, useState } from "react";
+import { useState } from "react";
 import { PhotoUploadWidget } from "../../app/common/imageUpload/PhotoUploadWidget";
 
 interface Props {
@@ -13,21 +13,22 @@ export const ProfilePhoto = observer(({ profile }: Props) => {
       isCurrentUser,
       uploadPhoto,
       uploading,
-      loading,
+
+      deletePhoto,
       setMainPhoto,
     },
   } = useStore();
-  const [target, setTarget] = useState("");
+
   const [addPhotoMode, setAddPhotoMode] = useState(false);
   function handlePhotoUpload(file: Blob) {
     uploadPhoto(file).then(() => setAddPhotoMode(false));
   }
 
-  const handleSetMainPhoto = (
-    photo: Photo,
-    e: SyntheticEvent<HTMLButtonElement>
-  ) => {
-    setTarget(e.currentTarget.name);
+  const handleDeletePhoto = (photo: Photo) => {
+    deletePhoto(photo);
+  };
+
+  const handleSetMainPhoto = (photo: Photo) => {
     setMainPhoto(photo);
   };
   return (
@@ -59,11 +60,15 @@ export const ProfilePhoto = observer(({ profile }: Props) => {
                     <button
                       className="border-green-500 border flex-1 text-green-500 font-bold disabled:text-green-200"
                       disabled={photo.isMain}
-                      onClick={(e) => handleSetMainPhoto(photo, e)}
+                      onClick={() => handleSetMainPhoto(photo)}
                     >
                       Main
                     </button>
-                    <button className="border-red-500 border text-red-500 flex-1">
+                    <button
+                      onClick={() => handleDeletePhoto(photo)}
+                      disabled={photo.isMain}
+                      className="border-red-500 border text-red-500 flex-1 disabled:bg-red-300"
+                    >
                       Delete
                     </button>
                   </div>
