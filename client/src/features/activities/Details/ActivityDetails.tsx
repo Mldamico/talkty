@@ -28,7 +28,7 @@ export const ActivityDetails = observer(() => {
       <div>
         <ActivityDetailedHeader activity={activity} />
         <ActivityDetailedInfo activity={activity} />
-        <ActivityDetailedChat />
+        <ActivityDetailedChat activityId={activity.id} />
       </div>
       <div className="">
         <ActivityDetailedSidebar activity={activity} />

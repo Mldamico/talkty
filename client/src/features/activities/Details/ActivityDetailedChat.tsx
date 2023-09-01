@@ -1,6 +1,26 @@
 import { observer } from "mobx-react-lite";
+import { useStore } from "../../../app/stores/store";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Form, Formik } from "formik";
+import { TextArea } from "../../../app/common/form/TextArea";
 
-export const ActivityDetailedChat = observer(() => {
+interface Props {
+  activityId: string;
+}
+
+export const ActivityDetailedChat = observer(({ activityId }: Props) => {
+  const { commentStore } = useStore();
+
+  useEffect(() => {
+    if (activityId) {
+      commentStore.createHubConnection(activityId);
+    }
+
+    return () => {
+      commentStore.clearComments();
+    };
+  }, [activityId, commentStore]);
   return (
     <div className="my-2 bg-white shadow-md">
       <div className="p-2 text-center text-white bg-blue-400">
@@ -8,54 +28,48 @@ export const ActivityDetailedChat = observer(() => {
       </div>
       <div>
         <div>
-          <div className="flex gap-4 m-4">
-            <img
-              className="rounded-full w-28"
-              src="/assets/user.png"
-              alt="user"
-            />
-            <div>
-              <p>
-                <span className="text-lg font-bold">Matt</span>
-                <span className="ml-2 text-sm font-light">
-                  - Today at 5:42PM
-                </span>
-              </p>
+          {commentStore.comments.map((comment) => (
+            <div className="flex gap-4 m-4" key={comment.id}>
+              <img
+                className="rounded-full w-14"
+                src={comment.image || "/assets/user.png"}
+                alt={comment.username || "user"}
+              />
+              <div>
+                <p>
+                  <span className="text-lg font-bold">
+                    <Link to={`/profiles/${comment.username}`}>
+                      {comment.displayName}
+                    </Link>
+                  </span>
+                  <span className="ml-2 text-sm font-light">
+                    - {comment.createdAt.toString()}
+                  </span>
+                </p>
 
-              <p className="font-semibold">How artistic!</p>
-              <div className="mt-2">
-                <button className="font-light">Reply</button>
+                <p className="font-semibold">{comment.body}</p>
               </div>
             </div>
-          </div>
-
-          <div className="flex gap-4 m-4">
-            <img
-              className="rounded-full w-28"
-              src="/assets/user.png"
-              alt="user"
-            />
-            <div>
-              <p>
-                <span className="text-lg font-bold">Joe Henderson</span>
-                <span className="ml-2 text-sm font-light">- 5 days ago</span>
-              </p>
-
-              <p className="font-semibold">
-                Dude, this is awesome. Thanks so much
-              </p>
-              <div className="mt-2">
-                <button className="font-light">Reply</button>
-              </div>
-            </div>
-          </div>
-
-          <form className="flex flex-col items-center justify-center gap-4 pb-4">
-            <textarea className="w-[80%] p-4 border-2 resize-none" />
-            <button className="px-3 py-2 text-white bg-blue-400 rounded-md">
-              Add Reply
-            </button>
-          </form>
+          ))}
+          <Formik
+            onSubmit={(values, { resetForm }) =>
+              commentStore.addComment(values).then(() => resetForm())
+            }
+            initialValues={{ body: "" }}
+          >
+            {({ isSubmitting, isValid }) => (
+              <Form className="flex flex-col items-center justify-center gap-4 pb-4 ui form">
+                <TextArea placeholder="Add Comment" name="body" rows={2} />
+                <button
+                  className="px-3 py-2 text-white bg-blue-400 rounded-md"
+                  disabled={isSubmitting || !isValid}
+                  type="submit"
+                >
+                  Add Reply
+                </button>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </div>

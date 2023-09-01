@@ -10,7 +10,7 @@ interface Props {
 export const TextArea = (props: Props) => {
   const [field, meta] = useField(props.name);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full px-5">
       <label>{props.label}</label>
       <textarea
         className={`${
