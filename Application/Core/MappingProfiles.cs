@@ -1,5 +1,6 @@
 using API.DTOs;
 using Application.Activities;
+using Application.Comments;
 using AutoMapper;
 using Domain;
 
@@ -24,5 +25,12 @@ public class MappingProfiles : Profile
             .ForMember(x => x.Image, opt => opt.MapFrom(a => a.AppUser.Photos.FirstOrDefault(x => x.IsMain).Url));
         CreateMap<AppUser, Profiles.Profile>()
             .ForMember(x => x.Image, opt => opt.MapFrom(a => a.Photos.FirstOrDefault(x => x.IsMain).Url));
+
+        CreateMap<Comment, CommentDto>()
+            .ForMember(d => d.DisplayName,
+                o => o.MapFrom(s => s.Author.DisplayName))
+            .ForMember(d => d.Username,
+                o => o.MapFrom(s => s.Author.UserName))
+            .ForMember(x => x.Image, opt => opt.MapFrom(a => a.Author.Photos.FirstOrDefault(x => x.IsMain).Url));
     }
 }
