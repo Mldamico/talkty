@@ -13,7 +13,6 @@ export const ProfilePhoto = observer(({ profile }: Props) => {
       isCurrentUser,
       uploadPhoto,
       uploading,
-
       deletePhoto,
       setMainPhoto,
     },
@@ -33,11 +32,11 @@ export const ProfilePhoto = observer(({ profile }: Props) => {
   };
   return (
     <div>
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <h1>Photos</h1>
         {isCurrentUser && (
           <button
-            className="bg-blue-600 text-white px-3 py-2"
+            className="px-3 py-2 text-white bg-blue-600"
             onClick={() => setAddPhotoMode(!addPhotoMode)}
           >
             {addPhotoMode ? "Cancel" : "Add Photo"}
@@ -51,14 +50,14 @@ export const ProfilePhoto = observer(({ profile }: Props) => {
             loading={uploading}
           />
         ) : (
-          <div className="grid gap-3 grid-cols-5">
+          <div className="grid grid-cols-5 gap-3">
             {profile.photos?.map((photo) => (
               <div key={photo?.id}>
                 <img src={photo?.url} alt="Photo" />
                 {isCurrentUser && (
-                  <div className="w-full flex pt-2 gap-2 ">
+                  <div className="flex w-full gap-2 pt-2 ">
                     <button
-                      className="border-green-500 border flex-1 text-green-500 font-bold disabled:text-green-200"
+                      className="flex-1 font-bold text-green-500 border border-green-500 disabled:text-green-200"
                       disabled={photo.isMain}
                       onClick={() => handleSetMainPhoto(photo)}
                     >
@@ -67,7 +66,7 @@ export const ProfilePhoto = observer(({ profile }: Props) => {
                     <button
                       onClick={() => handleDeletePhoto(photo)}
                       disabled={photo.isMain}
-                      className="border-red-500 border text-red-500 flex-1 disabled:bg-red-300"
+                      className="flex-1 text-red-500 border border-red-500 disabled:bg-red-300"
                     >
                       Delete
                     </button>
