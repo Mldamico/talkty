@@ -2,9 +2,9 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "../../../app/stores/store";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Form, Formik } from "formik";
-import { TextArea } from "../../../app/common/form/TextArea";
-
+import { Field, FieldProps, Form, Formik } from "formik";
+import * as Yup from "yup";
+import { formatDistanceToNow } from "date-fns";
 interface Props {
   activityId: string;
 }
@@ -28,6 +28,41 @@ export const ActivityDetailedChat = observer(({ activityId }: Props) => {
       </div>
       <div>
         <div>
+          <Formik
+            onSubmit={(values, { resetForm }) =>
+              commentStore.addComment(values).then(() => resetForm())
+            }
+            initialValues={{ body: "" }}
+            validationSchema={Yup.object({
+              body: Yup.string().required(),
+            })}
+          >
+            {({ isValid, handleSubmit }) => (
+              <Form className="gap-4 pt-4 ui form">
+                <Field name="body">
+                  {(props: FieldProps) => (
+                    <div className="relative mx-4">
+                      <textarea
+                        className="w-full "
+                        placeholder="Enter your comment (Enter to submit, Shielf + enter for new line)"
+                        rows={2}
+                        {...props.field}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && e.shiftKey) {
+                            return;
+                          }
+                          if (e.key === "Enter" && !e.shiftKey) {
+                            e.preventDefault();
+                            isValid && handleSubmit();
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+                </Field>
+              </Form>
+            )}
+          </Formik>
           {commentStore.comments.map((comment) => (
             <div className="flex gap-4 m-4" key={comment.id}>
               <img
@@ -43,7 +78,7 @@ export const ActivityDetailedChat = observer(({ activityId }: Props) => {
                     </Link>
                   </span>
                   <span className="ml-2 text-sm font-light">
-                    - {comment.createdAt.toString()}
+                    - {formatDistanceToNow(comment.createdAt)} ago
                   </span>
                 </p>
 
@@ -51,25 +86,6 @@ export const ActivityDetailedChat = observer(({ activityId }: Props) => {
               </div>
             </div>
           ))}
-          <Formik
-            onSubmit={(values, { resetForm }) =>
-              commentStore.addComment(values).then(() => resetForm())
-            }
-            initialValues={{ body: "" }}
-          >
-            {({ isSubmitting, isValid }) => (
-              <Form className="flex flex-col items-center justify-center gap-4 pb-4 ui form">
-                <TextArea placeholder="Add Comment" name="body" rows={2} />
-                <button
-                  className="px-3 py-2 text-white bg-blue-400 rounded-md"
-                  disabled={isSubmitting || !isValid}
-                  type="submit"
-                >
-                  Add Reply
-                </button>
-              </Form>
-            )}
-          </Formik>
         </div>
       </div>
     </div>
