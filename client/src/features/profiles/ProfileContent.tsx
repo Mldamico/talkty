@@ -8,12 +8,15 @@ import {
 import { ProfilePhoto } from "./ProfilePhoto";
 import { Profile } from "../../types/profile";
 import { observer } from "mobx-react-lite";
+import { ProfileFollowings } from "./ProfileFollowings";
+import { useStore } from "../../app/stores/store";
 
 interface Props {
   profile: Profile;
 }
 
 export const ProfileContent = observer(({ profile }: Props) => {
+  const { profileStore } = useStore();
   const panes = [
     {
       menuItem: "About",
@@ -32,18 +35,22 @@ export const ProfileContent = observer(({ profile }: Props) => {
     },
     {
       menuItem: "Followers",
-      render: () => <div>About content</div>,
+      render: () => <ProfileFollowings />,
       icon: MdPersonOutline,
     },
     {
       menuItem: "Following",
-      render: () => <div>About content</div>,
+      render: () => <ProfileFollowings />,
       icon: MdPersonOutline,
     },
   ];
   return (
     <div className="p-2 mt-4 bg-white rounded-md shadow-md">
-      <Tabs.Group style="fullWidth" theme={customTheme}>
+      <Tabs.Group
+        style="fullWidth"
+        theme={customTheme}
+        onActiveTabChange={(tab) => profileStore.setActiveTab(tab)}
+      >
         {panes.map((pan) => (
           <Tabs.Item icon={pan.icon} key={pan.menuItem} title={pan.menuItem}>
             {pan.render()}

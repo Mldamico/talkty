@@ -21,8 +21,9 @@ export const FollowButton = observer(({ profile }: Props) => {
   if (userStore.user?.username === profile.username) return null;
   return (
     <button
-      className="py-2 mt-2 text-white bg-blue-600"
+      className="w-full px-3 py-2 mt-2 text-white bg-blue-600"
       onClick={(e) => handleFollow(e, profile.username)}
+      disabled={loading}
     >
       {profile.following ? "Unfollow" : "Follow"}
     </button>
