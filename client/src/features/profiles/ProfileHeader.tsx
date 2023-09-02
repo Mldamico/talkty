@@ -19,11 +19,11 @@ export const ProfileHeader = observer(({ profile }: Props) => {
       <div className="flex flex-col">
         <div className="flex gap-10 border-b border-gray-600">
           <div className="text-center">
-            <p className="text-3xl">5</p>
+            <p className="text-3xl">{profile.followersCount}</p>
             <p>Followers</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl">50</p>
+            <p className="text-3xl">{profile.followingCount}</p>
             <p>Following</p>
           </div>
         </div>

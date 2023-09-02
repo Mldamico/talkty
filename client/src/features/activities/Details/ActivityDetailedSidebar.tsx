@@ -39,7 +39,9 @@ export const ActivityDetailedSidebar = observer(
                     </p>
                   )}
 
-                  <p className="text-blue-400">Following</p>
+                  {attendee.following && (
+                    <p className="text-blue-400">Following</p>
+                  )}
                 </div>
               </div>
             ))}

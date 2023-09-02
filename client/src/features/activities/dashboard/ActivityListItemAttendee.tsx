@@ -20,7 +20,9 @@ export const ActivityListItemAttendee = observer(({ attendees }: Props) => {
           <Link to={`/profiles/${attendee.username}`} className="">
             <img
               src={attendee.image || "/assets/user.png"}
-              className="w-12 rounded-full"
+              className={`w-12 rounded-full ${
+                attendee.following ? "border-2 border-orange-400" : null
+              }`}
             />
           </Link>
         </Tooltip>

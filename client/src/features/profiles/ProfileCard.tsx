@@ -16,7 +16,10 @@ export default observer(function ProfileCard({ profile }: Props) {
           <p>Bio goes here</p>
         </div>
         <div className="">
-          <p>20 followers</p>
+          <p>
+            {profile.followersCount}{" "}
+            {profile.followersCount > 1 ? "followers" : "follower"}
+          </p>
         </div>
       </Link>
     </div>
