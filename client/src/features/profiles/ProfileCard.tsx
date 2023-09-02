@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { Profile } from "../../types/profile";
 import { Link } from "react-router-dom";
+import { FollowButton } from "./FollowButton";
 
 interface Props {
   profile: Profile;
@@ -21,6 +22,7 @@ export default observer(function ProfileCard({ profile }: Props) {
             {profile.followersCount > 1 ? "followers" : "follower"}
           </p>
         </div>
+        <FollowButton profile={profile} />
       </Link>
     </div>
   );

@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Profile } from "../../types/profile";
+import { FollowButton } from "./FollowButton";
 
 interface Props {
   profile: Profile;
@@ -27,7 +28,7 @@ export const ProfileHeader = observer(({ profile }: Props) => {
             <p>Following</p>
           </div>
         </div>
-        <button className="py-2 mt-2 text-white bg-blue-600 ">Following</button>
+        <FollowButton profile={profile} />
       </div>
     </div>
   );
