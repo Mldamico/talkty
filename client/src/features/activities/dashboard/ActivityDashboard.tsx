@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Loading } from "../../../app/layout/Loading";
 import { ActivityFilters } from "./ActivityFilters";
 import { PagingParams } from "../../../types/pagination";
+import InfiniteScroll from "react-infinite-scroller";
 
 export const ActivityDashboard = observer(() => {
   const { activityStore } = useStore();
@@ -28,19 +29,23 @@ export const ActivityDashboard = observer(() => {
   return (
     <div className="grid gap-4 grid-cols-[1.2fr_0.6fr]">
       <div className="">
-        <ActivityList />
-        <button
-          onClick={handleGetNext}
-          disabled={
-            loadingNext || pagination?.totalPages === pagination?.currentPage
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={handleGetNext}
+          hasMore={
+            !loadingNext &&
+            !!pagination &&
+            pagination.currentPage < pagination.totalPages
           }
+          initialLoad={false}
         >
-          More
-        </button>
+          <ActivityList />
+        </InfiniteScroll>
       </div>
       <div className="">
         <ActivityFilters />
       </div>
+      <div className=""></div>
     </div>
   );
 });
