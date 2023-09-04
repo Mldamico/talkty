@@ -32,6 +32,7 @@ public class List
         public async Task<Result<PagedList<ActivityDto>>> Handle(Query request, CancellationToken cancellationToken)
         {
             var query = _context.Activities
+                .OrderBy(d => d.Date)
                 // .Include(a => a.Attendees)
                 // .ThenInclude(u => u.AppUser)
                 .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider,
