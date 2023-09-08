@@ -10,6 +10,7 @@ import { Profile } from "../../types/profile";
 import { observer } from "mobx-react-lite";
 import { ProfileFollowings } from "./ProfileFollowings";
 import { useStore } from "../../app/stores/store";
+import ProfileActivities from "./ProfileActivities";
 
 interface Props {
   profile: Profile;
@@ -30,7 +31,7 @@ export const ProfileContent = observer(({ profile }: Props) => {
     },
     {
       menuItem: "Events",
-      render: () => <div>Events content</div>,
+      render: () => <ProfileActivities />,
       icon: MdOutlineEvent,
     },
     {

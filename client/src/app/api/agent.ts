@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
 import { User, UserFormValues } from "../../types/user";
-import { Photo, Profile } from "../../types/profile";
+import { Photo, Profile, UserActivity } from "../../types/profile";
 import { PaginatedResult } from "../../types/pagination";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
@@ -117,6 +117,10 @@ const Profiles = {
     requests.post(`/follow/${username}`, {}),
   listFollowings: (username: string, predicate: string) =>
     requests.get<Profile[]>(`/follow/${username}?predicate=${predicate}`),
+  listActivities: (username: string, predicate: string) =>
+    requests.get<UserActivity[]>(
+      `/profiles/${username}/activities?predicate=${predicate}`
+    ),
 };
 
 const agent = {
